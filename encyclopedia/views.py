@@ -19,6 +19,10 @@ def entry(request,entry):
             "entry_title":entry
             
         })
+    else:
+        return render(request, "encyclopedia/error.html", {
+            "entry_title": entry    
+        })
 
 
 
