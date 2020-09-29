@@ -36,18 +36,22 @@ def newEntry(request):
         if form.is_valid(): #si es valido
             title=form.cleaned_data["title"] #obtengo los datos del formulario
             content=form.cleaned_data["content"]
-            pagen=util.list_entries()
-            if title in pagen: #el titulo de la entrada es nuevo
+            pagen=util.get_entry(title)
+            if pagen is None: #el titulo de la entrada es nuevo
                 util.save_entry(title,content) #guardo la entrada y el contenido
                 page=util.get_entry(title)
-                return render(request,"encyclopedia/new.html", 
+                return render(request,"encyclopedia/entry.html", 
                 {
                     "entry":markdowner.convert(page),
                     "entry_tile":title
              
                 })
             else: #pagina existe
-                return HttpResponse("<h1 style=\"color:blue\">Existe</h1>")
+                return render(request,"encyclopedia/new.html",
+                {
+                    "form": form, #le entrego la info, para que edite el titulo
+                    "exist": True
+                })
     else: #al principio muestro la plantilla con el formulario
         return render(request,"encyclopedia/new.html", {
             "form": NewEntryForm()
