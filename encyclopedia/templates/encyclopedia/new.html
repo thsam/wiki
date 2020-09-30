@@ -10,7 +10,7 @@
     <h4 class="display-5">Create new page:</h4>
     {% if exist %}
     <div class="alert alert-danger" role="alert">
-        This entry already exists. If you want to view or edit it, <a href="/wiki/{{ entry_title }}" class="alert-link">click here</a>.
+        This entry already exists. If you want to view or edit it, <a href={% url 'entry' entry=form.title.value %} class="alert-link">click here</a>.
     </div>
     {% endif %}
     <h6 class="post-title">Title: {{form.title}}</h6>

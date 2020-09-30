@@ -1,0 +1,18 @@
+{% extends "encyclopedia/layout.html" %}
+{% block title %}
+    {{page_edit}}
+{% endblock %}
+    
+{% block body %}
+<!-- entry=form.title.value-->
+<form method="post" action="{% url 'edit' entry=page_edit %}">
+    {% csrf_token %}
+    <h4 class="display-5">Edit page: </h4>
+ 
+    <h6 class="post-title">Title: {{form.title}}</h6>
+    
+        {{form.content}}
+    <br>
+    <input class="save btn btn-info" type="submit" value="Save"/>
+</form>
+{% endblock %}
