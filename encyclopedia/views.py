@@ -1,5 +1,4 @@
 import markdown2
-import os
 import random
 from django.shortcuts import render, redirect
 from django import forms
@@ -12,7 +11,6 @@ markdowner= Markdown()
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="Title")
     content = forms.CharField(widget=forms.Textarea(attrs={'class' : 'form-control col-md-8 col-lg-8', 'rows' : 10}))
-    #edit = forms.BooleanField(initial=False, widget=forms.HiddenInput(), required=False)
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -50,12 +48,6 @@ def newEntry(request,edit="false"):
                 #return entry(request,title)
                 print(title)
                 return redirect(reverse("entry", args=(title,)))
-                """ return render(request,"encyclopedia/entry.html", 
-                {
-                    "entry":markdowner.convert(page),
-                    "entry_tile":title
-             
-                }) """
             else: #pagina existe
                 print("No se puede guardar x la pagina existe")
                 return render(request,"encyclopedia/new.html",
@@ -94,6 +86,21 @@ def edit(request,entry):
     else:
         print("entrando true")
         return newEntry(request,"true")
+
+def search(request):
+    value = request.GET.get('q','')
+    if(util.get_entry(value) is not None):
+        return redirect(reverse("entry", kwargs={'entry': value }))
+    else:
+        subStringEntries = []
+        for entry in util.list_entries():
+            if value.upper() in entry.upper():
+                subStringEntries.append(entry)
+
+        return render(request, "encyclopedia/index.html", {
+        "entries": subStringEntries
+        
+    })
 
 
         
