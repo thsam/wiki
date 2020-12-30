@@ -1,1 +1,1 @@
-web: gunicorn wikics50.wsgi --log-file -
+web: gunicorn cs50wiko.wsgi --log-file -
