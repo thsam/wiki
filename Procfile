@@ -1,0 +1,1 @@
+web: gunicorn wikics50.wsgi --log-file -
